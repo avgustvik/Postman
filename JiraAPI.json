@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "5da2a1fb-f97c-43c9-a42f-0ca46a36391b",
+		"name": "Jira API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8af89aea-43b8-4fca-a97e-b20df4370c56",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"response = JSON.parse(responseBody)",
+							"postman.setEnvironmentVariable(\"Key\", response.key)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Serenety2012!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "avgustvik",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"New User1234\",\r\n    \"password\": \"User New1234\",\r\n    \"emailAddress\": \"newuser1234@example.com\",\r\n    \"displayName\": \"New User1\",\r\n    \"applicationKeys\": [\r\n        \"jira-core\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/api/2/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4de42651-d164-45af-8b2d-b42b9ee33914",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Serenety2012!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "avgustvik",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"New User1\",\r\n    \"password\": \"User New1\",\r\n    \"emailAddress\": \"newuser1@example.com\",\r\n    \"displayName\": \"New User1\",\r\n    \"applicationKeys\": [\r\n        \"jira-core\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/rest/api/2/user?key={{Key}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{Key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f2bb75a-9dae-419d-ae59-9cbd52626e8b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Serenety2012!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "avgustvik",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/rest/api/2/user?key={{Key}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{Key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify user is deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a6a22c9-3da9-48c8-8f8b-33001c121f7d",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Serenety2012!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "avgustvik",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/rest/api/2/user?key={{Key}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{Key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
